@@ -7,14 +7,14 @@ enum Complexity {
 }
 
 enum Affordability{
-  Affaordable,
+  Affordable,
   Pricey,
   Luxurious
 }
 
-class Meals{
+class Meal{
   final String id;
-  final List<String> category;
+  final List<String> categories;
   final String title;
   final String imageUrl;
   final List<String> ingredients;
@@ -26,6 +26,21 @@ class Meals{
   final bool isLactoseFree;
   final bool isVegan;
   final bool isVegetarian;
+
+
+  const Meal({
+    @required this.id,
+    @required this.categories,
+  @required this.title,
+  @required this.imageUrl,
+  @required this.ingredients,
+  @required this.steps,
+  @required this.duration,
+  @required this.complexity,
+  @required this.affordability,
+  @required this.isGlutenFree,
+  @required this.isLactoseFree,
+  @required this.isVegan,
+  @required this.isVegetarian });
 }
 
-Meals({@required this.id, @required this.category, });
