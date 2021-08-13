@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:meals_app/screens/meal_detail_screen.dart';
 import 'screens/category_meals_screen.dart';
 import 'screens/categories_screen.dart';
 
@@ -30,8 +31,22 @@ class MyApp extends StatelessWidget {
       ),
       // home: CategoriesScreen(),
       routes: {
-        '/':(ctx) => CategoriesScreen(),
+        '/' : (ctx) => CategoriesScreen(),
         CategoryMealsScreen.routeName: (ctx) => CategoryMealsScreen(),
+        MealDetailScreen.routeName : (ctx) => MealDetailScreen(),
+      },
+      // onGenerateRoute: use it when a particular route is not available
+      // onGenerateRoute: (settings){
+      //   print(settings.arguments);
+      //   if(settings.name == '/meal-detail'){
+      //     return MaterialPageRoute<dynamic>(builder: (ctx)=> MealDetailScreen());
+      //   }else if ( settings.name == '/something'){
+      //     return MaterialPageRoute<dynamic>(builder: (ctx)=> MealDetailScreen());
+      //   }
+      // },
+      // onUnknownRoute -- use it as a fallback when all route fails
+      onUnknownRoute: (settings){
+        return MaterialPageRoute<dynamic>(builder: (ctx)=> CategoryMealsScreen());
       },
     );
   }
