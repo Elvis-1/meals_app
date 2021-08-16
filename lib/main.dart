@@ -11,8 +11,25 @@ void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   // This widget is the root of your application.
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  Map<String, bool> _filters = {
+    'gluten' : false,
+    'lactose': false,
+    'vegan':false,
+    'vegetarian': false
+  };
+  void _setFilters (Map<String, bool> filterData){
+   setState((){
+     _filters = filterData;
+   })
+
+  }
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -37,7 +54,7 @@ class MyApp extends StatelessWidget {
         // '/' : (ctx) => CategoriesScreen(),
         CategoryMealsScreen.routeName: (ctx) => CategoryMealsScreen(),
         MealDetailScreen.routeName : (ctx) => MealDetailScreen(),
-        FiltersScreen.routeName :(ctx) => FiltersScreen()
+        FiltersScreen.routeName :(ctx) => FiltersScreen(_setFilters)
       },
       // onGenerateRoute: use it when a particular route is not available
       // onGenerateRoute: (settings){
