@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:meals_app/screens/filter_screen.dart';
-import 'package:meals_app/screens/meal_detail_screen.dart';
+import './dummy_data.dart';
+import './models/meal.dart';
+import './screens/filter_screen.dart';
+import './screens/meal_detail_screen.dart';
 import './screens/tabs_screen.dart';
-import 'screens/category_meals_screen.dart';
-import 'screens/categories_screen.dart';
+import './screens/category_meals_screen.dart';
+
 
 
 
@@ -24,10 +26,27 @@ class _MyAppState extends State<MyApp> {
     'vegan':false,
     'vegetarian': false
   };
+  List<Meal> _availableMeals = DUMMY_MEALS;
+
   void _setFilters (Map<String, bool> filterData){
    setState((){
      _filters = filterData;
-   })
+     _availableMeals = DUMMY_MEALS.where((meal) {
+         if(_filters['gluten']  == true && meal.isGlutenFree == false){
+           return false;
+         }
+         if(_filters['lactose'] == true && meal.isLactoseFree == false){
+           return false;
+         }
+         if(_filters['vegan'] == true && meal.isVegan == false){
+           return false;
+         }
+         if(_filters['vegetarian']== true && meal.isVegetarian == false){
+           return false;
+         }
+         return true;
+     }).toList();
+   });
 
   }
   @override
@@ -52,9 +71,9 @@ class _MyAppState extends State<MyApp> {
       routes: {
         '/' : (ctx) => TabsScreen(),
         // '/' : (ctx) => CategoriesScreen(),
-        CategoryMealsScreen.routeName: (ctx) => CategoryMealsScreen(),
+        CategoryMealsScreen.routeName: (ctx) => CategoryMealsScreen(_availableMeals),
         MealDetailScreen.routeName : (ctx) => MealDetailScreen(),
-        FiltersScreen.routeName :(ctx) => FiltersScreen(_setFilters)
+        FiltersScreen.routeName :(ctx) => FiltersScreen(_filters,_setFilters)
       },
       // onGenerateRoute: use it when a particular route is not available
       // onGenerateRoute: (settings){
@@ -67,7 +86,7 @@ class _MyAppState extends State<MyApp> {
       // },
       // onUnknownRoute -- use it as a fallback when all route fails
       onUnknownRoute: (settings){
-        return MaterialPageRoute<dynamic>(builder: (ctx)=> CategoryMealsScreen());
+        return MaterialPageRoute<dynamic>(builder: (ctx)=> CategoryMealsScreen(_availableMeals));
       },
     );
   }
